@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { RotatingLines } from "react-loader-spinner";
-import Modal from "../components/AddEvent";
+import UserModal from "../components/UserModal";
 
 const Users = () => {
   const [userId, setUserId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [userOptions, setUserOptions] = useState([]);
   const [searchOption, setSearchOption] = useState("all");
   const [data, setData] = useState([]);
@@ -22,6 +23,20 @@ const Users = () => {
     isOpen: false,
     id: null,
   });
+  const selectedUser = data.find((user) => user._id === selectedUserId);
+  const selectedUserName = selectedUser
+    ? `${selectedUser.firstName} ${selectedUser.lastName}`
+    : "";
+
+  const getUserNameById = (userId) => {
+    const user = data.find((user) => user._id === userId);
+    return user ? `${user.firstName} ${user.lastName}` : "";
+  };
+
+  const handleOpenModal = (userId) => {
+    setShowModal(true);
+    setSelectedUserId(userId);
+  };
 
   const handleAddEvent = (title, start, end) => {
     const newEvent = {
@@ -31,14 +46,6 @@ const Users = () => {
     };
     setEvents([...events, newEvent]);
     console.log("Nouvel événement ajouté :", newEvent);
-  };
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleUserIdChange = (newUserId) => {
-    setUserId(newUserId);
   };
 
   const handleAlert = () => {
@@ -79,6 +86,7 @@ const Users = () => {
       setData(response.data);
       setTotalUsers(response.data.length);
       setIsLoading(false);
+      // console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -95,7 +103,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        let response;
+        let response = await axios.get("http://localhost:3000/users");
         if (searchOption === "all") {
           response = await axios.get(`http://localhost:3000/users`, {
             params: { page: currentPage, searchTerm },
@@ -106,15 +114,14 @@ const Users = () => {
           );
         }
         setData(response.data);
-        setFilteredData(response.data);
-        setIsLoading(false);
+        setSelectedUserId(userId);
       } catch (error) {
-        console.error("Erreur lors de la recherche d'utilisateurs :", error);
+        console.log("Erreur lors du chargement des utilisateurs:", error);
       }
     };
 
     fetchUsers();
-  }, [searchOption, userId]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -131,16 +138,18 @@ const Users = () => {
     setFilteredData(filtered);
   }, [searchTerm, data]);
 
-  // Nombre d'utilisateurs par page
   const usersPerPage = 5;
-
-  // Calcul du nombre total de pages
   const totalPages = Math.ceil(filteredData.length / usersPerPage);
 
   // Calcul de l'index de début et de fin pour extraire les utilisateurs de la page actuelle
   const startIndex = (currentPage - 1) * usersPerPage;
   const endIndex = startIndex + usersPerPage;
   const currentUsers = filteredData.slice(startIndex, endIndex);
+
+  const navigate = useNavigate();
+  const handleUserSelect = (userId) => {
+    navigate(`/userDetails/${userId}`);
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -196,6 +205,14 @@ const Users = () => {
                     placeholder="Rechercher un utilisateur..."
                   />
                 </div>
+                {showModal && (
+                  <UserModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    selectedUserName={getUserNameById(selectedUserId)}
+                    userId={userId}
+                  />
+                )}
               </div>
             </div>
           ) : (
@@ -253,8 +270,8 @@ const Users = () => {
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               <div className="flex item-center justify-center">
                                 <div
+                                  onClick={() => handleOpenModal(user._id)}
                                   className="w-4 mr-2 transform hover:text-red-500 hover:scale-110 cursor-pointer"
-                                  onClick={handleOpenModal}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -271,15 +288,6 @@ const Users = () => {
                                     />
                                   </svg>
                                 </div>
-
-                                {showModal && (
-                                  <Modal
-                                    showModal={showModal}
-                                    setShowModal={setShowModal}
-                                    onAddEvent={handleAddEvent}
-                                  />
-                                )}
-
                                 <div className="w-4 mr-2 transform hover:text-red-500 hover:scale-110">
                                   <Link to={`/userDetails/${user._id}`}>
                                     <svg
