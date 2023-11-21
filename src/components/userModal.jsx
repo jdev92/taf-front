@@ -37,13 +37,14 @@ const UserModal = ({ selectedUserName, showModal, setShowModal }) => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (((userId && option1) || option2) && start && end) {
+
+    if (userId && (option1 || option2) && start && end) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
         // filtrer les jours de la semaine
         const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
 
-        // Utiliser joursSelectionnes pour calculer les périodes spécifiques associées à ces jours
+        // calcule les périodes spécifiques associées à ces jours
         const periodeSelectionnee = joursSelectionnes.map((day) => {
           const date = new Date();
           date.setDate(
@@ -59,14 +60,13 @@ const UserModal = ({ selectedUserName, showModal, setShowModal }) => {
           end,
           periode: periodeSelectionnee,
         });
-        onAddEvent(selectedOption, start, end, userId);
+        onAddEvent(selectedOption, start, end);
         setShowModal(false);
         setOption1(false);
         setOption2(false);
         setTitle("");
         setStart("");
         setEnd("");
-        setUserId(userId);
       } catch (error) {
         console.log("Erreur lors de l'enregistrement de l'événement:", error);
       }

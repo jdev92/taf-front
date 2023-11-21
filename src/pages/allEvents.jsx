@@ -14,6 +14,7 @@ const AllEvents = () => {
         const response = await axios.get(`http://localhost:3000/allEvents`);
         setEvents(response.data);
         setIsLoading(false);
+        console.log(response.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -25,7 +26,8 @@ const AllEvents = () => {
   const totalPages = Math.ceil(events.length / eventsPerPage);
   const startIndex = (currentPage - 1) * eventsPerPage;
   const endIndex = startIndex + eventsPerPage;
-  const currentEvents = events.slice(startIndex, endIndex);
+  const currentEvents =
+    events.length > 0 ? events.slice(startIndex, endIndex) : [];
 
   return (
     <>

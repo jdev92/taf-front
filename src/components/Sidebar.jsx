@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
+
   const Menus = [
     { title: "Créer un utilisateur", src: "User", link: "/createUser" },
     { title: "Liste des utilisateurs", src: "User", link: "/users" },
@@ -52,7 +53,7 @@ const Sidebar = () => {
               >
                 {/* {menu.title} */}
                 <Link to={menu.link} className="flex items-center gap-x-2">
-                  <img src={`./src/assets/${menu.src}.png`} alt="" />
+                  <img src={`../src/assets/${menu.src}.png`} alt="" />
                   <span
                     className={`${!open && "hidden"} origin-left duration-200 `}
                   >
