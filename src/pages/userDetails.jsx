@@ -82,18 +82,21 @@ const UserDetails = () => {
           <p className="text-white">Chargement des données...</p>
         </div>
       ) : (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-gray-900">
           <Sidebar />
-          <section className="container px-4 mx-auto">
+          <section className="container px-4 mx-auto bg-gray-900">
             <div className="flex flex-col">
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                  <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                    {userEvents.length === 0 ? (
-                      <p>Aucun évènement trouvé</p>
-                    ) : (
-                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-800">
+                  <h1 className="text-white text-4xl mb-4 pt-5">
+                    Planning de {lastName} {firstName}
+                  </h1>
+                  {userEvents.length === 0 ? (
+                    <p>Aucun évènement trouvé</p>
+                  ) : (
+                    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                      <table className="min-w-full leading-normal">
+                        <thead>
                           {showAlert && (
                             <div
                               className="flex items-center bg-green-400 text-white text-sm font-bold px-4 py-3 rounded-lg"
@@ -111,45 +114,30 @@ const UserDetails = () => {
                             </div>
                           )}
                           <tr>
-                            <th
-                              scope="col"
-                              className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                            >
+                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
                               User
                             </th>
 
-                            <th
-                              scope="col"
-                              className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                            >
+                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
                               Titre
                             </th>
 
-                            <th
-                              scope="col"
-                              className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                            >
+                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
                               Date de début
                             </th>
 
-                            <th
-                              scope="col"
-                              className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                            >
+                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
                               Date de fin
                             </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                            >
+                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
                               Actions
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                        <tbody>
                           {userEvents.map((event) => (
                             <tr key={event._id}>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                 <div className="flex items-center gap-x-2">
                                   <img
                                     className="object-cover w-8 h-8 rounded-full"
@@ -157,25 +145,25 @@ const UserDetails = () => {
                                     alt="img-user"
                                   />
                                   <div>
-                                    <h2 className="text-sm font-medium text-gray-800 dark:text-white ">
+                                    <h2 className="text-sm font-medium text-gray-800 dark:text-white text-white">
                                       {lastName} {firstName}
                                     </h2>
-                                    <p className="text-xs font-normal text-gray-600 dark:text-gray-400">
+                                    <p className="text-xs font-normal text-gray-600 dark:text-gray-400 text-white">
                                       {email}
                                     </p>
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                 {event.title}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                 {event.start}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                 {event.end}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                              <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -196,8 +184,8 @@ const UserDetails = () => {
                           ))}
                         </tbody>
                       </table>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

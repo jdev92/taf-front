@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Modal({ onAddEvent, showModal, setShowModal }) {
   const [option1, setOption1] = useState(false); // (Cours)
@@ -10,7 +10,6 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
   const [userId, setUserId] = useState("");
   const [users, setUsers] = useState([]);
   const [selectedDays, setSelectedDays] = useState([]);
-
   const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
   useEffect(() => {
@@ -41,17 +40,23 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     if ((option1 || option2) && start && end && userId) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
-        // filtrer les jours de la semaine
+        // Filtrer les jours de la semaine sélectionnés
         const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
 
-        // calcule les périodes spécifiques associées à ces jours
-        const periodeSelectionnee = joursSelectionnes.map((day) => {
-          const date = new Date();
-          date.setDate(
-            date.getDate() + ((daysOfWeek.indexOf(day) - date.getDay() + 5) % 5)
-          );
-          return date;
-        });
+        // Calculer les périodes spécifiques associées à ces jours
+        const periodeSelectionnee = joursSelectionnes.reduce(
+          (acc, selectedDay) => {
+            const date = new Date(start);
+            while (date <= new Date(end)) {
+              if (daysOfWeek[date.getDay()] === selectedDay) {
+                acc.push(new Date(date));
+              }
+              date.setDate(date.getDate() + 1);
+            }
+            return acc;
+          },
+          []
+        );
 
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
@@ -60,6 +65,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
           userId,
           periode: periodeSelectionnee,
         });
+
         onAddEvent(selectedOption, start, end);
         setShowModal(false);
         setOption1(false);
@@ -88,7 +94,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl font-semibold">Ajouter un plannning</h3>
+              <h3 className="text-3xl font-semibold">Ajouter un planning</h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={() => setShowModal(false)}

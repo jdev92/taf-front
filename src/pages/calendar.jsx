@@ -31,13 +31,6 @@ const Event = () => {
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <div className="flex-1 mt-16 overflow-y-auto pt-2 pl-2 pr-2">
-        <button
-          className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-          type="button"
-          onClick={() => setShowModal(true)}
-        >
-          Add event
-        </button>
         {showModal && (
           <ModalEvent onAddEvent={handleAddEvent} setShowModal={setShowModal} />
         )}

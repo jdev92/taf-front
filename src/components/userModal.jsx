@@ -132,9 +132,7 @@ const UserModal = ({ selectedUserName, showModal, setShowModal }) => {
                     />
                   </div>
                   <div className="flex flex-col text-gray-400 py-2">
-                    <label className="text-gray-400">
-                      Jours de la semaines
-                    </label>
+                    <label className="text-gray-400">Jours de la semaine</label>
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       {daysOfWeek.map((day, index) => (
                         <div key={index} className="flex items-center">
