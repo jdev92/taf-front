@@ -94,7 +94,7 @@ const UserDetails = () => {
                   {userEvents.length === 0 ? (
                     <p>Aucun évènement trouvé</p>
                   ) : (
-                    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                       <table className="min-w-full leading-normal">
                         <thead>
                           {showAlert && (

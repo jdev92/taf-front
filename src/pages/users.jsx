@@ -238,7 +238,7 @@ const Users = () => {
                     <p className="text-white pb-4">
                       Nombre total d'utilisateurs : {totalUsers}
                     </p>
-                    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                    <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
                       <table className="min-w-full leading-normal">
                         <thead>
                           <tr>
