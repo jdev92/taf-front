@@ -138,7 +138,7 @@ const Users = () => {
     setFilteredData(filtered);
   }, [searchTerm, data]);
 
-  const usersPerPage = 5;
+  const usersPerPage = 10;
   const totalPages = Math.ceil(filteredData.length / usersPerPage);
 
   // Calcul de l'index de début et de fin pour extraire les utilisateurs de la page actuelle
@@ -239,19 +239,19 @@ const Users = () => {
                       Nombre total d'utilisateurs : {totalUsers}
                     </p>
                     <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
-                      <table className="min-w-full leading-normal">
-                        <thead>
+                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className="bg-gray-50 dark:bg-gray-800">
                           <tr>
-                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                            <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               Nom
                             </th>
-                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                            <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               Prénom
                             </th>
-                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                            <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               Email
                             </th>
-                            <th className="px-5 py-3 text-left border-b-2 border-gray-200 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                            <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                               Actions
                             </th>
                           </tr>

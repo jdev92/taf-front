@@ -57,25 +57,25 @@ const AllEvents = () => {
                           <tr>
                             <th
                               scope="col"
-                              className="px-4 py-3.5  font-normal text-left rtl:text-right text-white dark:text-gray-400 bg-gray-900"
+                              className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                             >
                               Utilisateurs
                             </th>
                             <th
                               scope="col"
-                              className="px-4 py-3.5  font-normal text-left rtl:text-right text-white dark:text-gray-400 bg-gray-900"
+                              className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                             >
                               Titre
                             </th>
                             <th
                               scope="col"
-                              className="px-4 py-3.5  font-normal text-left rtl:text-right text-white dark:text-gray-400 bg-gray-900"
+                              className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                             >
                               Date de début
                             </th>
                             <th
                               scope="col"
-                              className="px-4 py-3.5  font-normal text-left rtl:text-right text-white dark:text-gray-400 bg-gray-900"
+                              className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                             >
                               Date de fin
                             </th>
