@@ -40,30 +40,29 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     if ((option1 || option2) && start && end && userId) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
-        // Filtrer les jours de la semaine sélectionnés
         const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
 
-        // Calculer les périodes spécifiques associées à ces jours
-        const periodeSelectionnee = joursSelectionnes.reduce(
-          (acc, selectedDay) => {
-            const date = new Date(start);
-            while (date <= new Date(end)) {
-              if (daysOfWeek[date.getDay()] === selectedDay) {
-                acc.push(new Date(date));
-              }
-              date.setDate(date.getDate() + 1);
-            }
-            return acc;
-          },
-          []
-        );
+        const periodeSelectionnee = [];
+
+        const date = new Date(start);
+        while (date <= new Date(end)) {
+          const selectedDay = joursSelectionnes.includes(
+            daysOfWeek[date.getDay()]
+          );
+          const allDaysOfWeek =
+            joursSelectionnes.length === 0 && date.getDay < 5;
+          if (selectedDay || allDaysOfWeek) {
+            periodeSelectionnee.push(new Date(date));
+          }
+          date.setDate(date.getDate() + 1);
+        }
 
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
           start,
           end,
           userId,
-          periode: periodeSelectionnee,
+          periode: daysOfWeek,
         });
 
         onAddEvent(selectedOption, start, end);
