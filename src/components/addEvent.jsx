@@ -46,12 +46,10 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
 
         const date = new Date(start);
         while (date <= new Date(end)) {
-          const selectedDay = joursSelectionnes.includes(
-            daysOfWeek[date.getDay()]
-          );
-          const allDaysOfWeek =
-            joursSelectionnes.length === 0 && date.getDay < 5;
-          if (selectedDay || allDaysOfWeek) {
+          if (
+            (joursSelectionnes.length === 0 && date.getDay() < 5) ||
+            joursSelectionnes.includes(daysOfWeek[date.getDay()])
+          ) {
             periodeSelectionnee.push(new Date(date));
           }
           date.setDate(date.getDate() + 1);
@@ -62,7 +60,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
           start,
           end,
           userId,
-          periode: daysOfWeek,
+          daysOfWeek: joursSelectionnes,
         });
 
         onAddEvent(selectedOption, start, end);

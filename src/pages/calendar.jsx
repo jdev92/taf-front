@@ -18,11 +18,12 @@ const Event = () => {
     setMinDate(info.dateStr);
   };
 
-  const handleAddEvent = (title, start, end) => {
+  const handleAddEvent = (title, start, end, daysOfWeek) => {
     const newEvent = {
       title: title,
       start: start,
       end: end,
+      daysOfWeek: daysOfWeek,
     };
     setEvents([...events, newEvent]);
     console.log("Nouvel événement ajouté :", newEvent);
