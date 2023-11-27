@@ -41,26 +41,35 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
         const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
+        const startDate = new Date(start);
+        const endDate = new Date(end);
 
         const periodeSelectionnee = [];
+        let currentDate = new Date(startDate);
 
-        const date = new Date(start);
-        while (date <= new Date(end)) {
+        while (currentDate <= endDate) {
+          const dayOfWeek = daysOfWeek[currentDate.getDay()];
+
           if (
-            (joursSelectionnes.length === 0 && date.getDay() < 5) ||
-            joursSelectionnes.includes(daysOfWeek[date.getDay()])
+            (joursSelectionnes.length === 0 && currentDate.getDay() < 5) ||
+            joursSelectionnes.includes(dayOfWeek)
           ) {
-            periodeSelectionnee.push(new Date(date));
+            periodeSelectionnee.push({
+              date: currentDate.toISOString(), // Utilisez toISOString() pour formater la date
+              dayOfWeek,
+            });
           }
-          date.setDate(date.getDate() + 1);
+
+          currentDate.setDate(currentDate.getDate() + 1);
         }
 
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
-          start,
-          end,
+          start: startDate.toISOString(),
+          end: endDate.toISOString(),
           userId,
           daysOfWeek: joursSelectionnes,
+          periode: periodeSelectionnee,
         });
 
         onAddEvent(selectedOption, start, end);

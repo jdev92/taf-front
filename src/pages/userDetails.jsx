@@ -146,6 +146,11 @@ const UserDetails = () => {
                               <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 Date de fin
                               </th>
+
+                              <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                Jours de présence
+                              </th>
+
                               <th className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 Actions
                               </th>
@@ -162,8 +167,9 @@ const UserDetails = () => {
                                       alt="img-user"
                                     />
                                     <div>
-                                      <h2 className="text-sm font-medium text-white ">
-                                        {lastName} {firstName}
+                                      <h2 className="text-sm font-medium text-white">
+                                        {firstName}
+                                        {lastName}
                                       </h2>
                                       <p className="text-xs font-normal text-white">
                                         {email}
@@ -179,6 +185,13 @@ const UserDetails = () => {
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                   {event.end}
+                                </td>
+                                <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
+                                  {event.periode.map((dayInfo) => (
+                                    <span key={dayInfo.date} className="mr-2">
+                                      {dayInfo.dayOfWeek} ({dayInfo.date})
+                                    </span>
+                                  ))}
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-gray-900 text-white">
                                   <svg
