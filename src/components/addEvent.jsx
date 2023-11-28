@@ -41,32 +41,31 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
         const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
-        const startDate = new Date(start);
-        const endDate = new Date(end);
 
         const periodeSelectionnee = [];
-        let currentDate = new Date(startDate);
 
-        while (currentDate <= endDate) {
-          const dayOfWeek = daysOfWeek[currentDate.getDay()];
+        const dateStart = new Date(start);
+        const dateEnd = new Date(end);
 
+        while (dateStart <= dateEnd) {
           if (
-            (joursSelectionnes.length === 0 && currentDate.getDay() < 5) ||
-            joursSelectionnes.includes(dayOfWeek)
+            (joursSelectionnes.length === 0 && dateStart.getDay() < 5) ||
+            joursSelectionnes.includes(
+              daysOfWeek[dateStart.getDay() - 1] // Modifier pour prendre en compte les jours de la semaine corrects
+            )
           ) {
             periodeSelectionnee.push({
-              date: currentDate.toISOString(), // Utilisez toISOString() pour formater la date
-              dayOfWeek,
+              date: new Date(dateStart.getTime()),
+              dayOfWeek: daysOfWeek[dateStart.getDay() - 1],
             });
           }
-
-          currentDate.setDate(currentDate.getDate() + 1);
+          dateStart.setDate(dateStart.getDate() + 1);
         }
 
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
-          start: startDate.toISOString(),
-          end: endDate.toISOString(),
+          start: start,
+          end: end,
           userId,
           daysOfWeek: joursSelectionnes,
           periode: periodeSelectionnee,
@@ -174,7 +173,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                   <label className="text-white">Date de début</label>
                   <input
                     className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-                    type="datetime-local"
+                    type="date"
                     value={start}
                     onChange={(e) => setStart(e.target.value)}
                   />
@@ -183,7 +182,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                   <label className="text-white">Date de fin</label>
                   <input
                     className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-                    type="datetime-local"
+                    type="date"
                     value={end}
                     onChange={(e) => setEnd(e.target.value)}
                   />

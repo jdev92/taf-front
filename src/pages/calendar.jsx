@@ -5,13 +5,27 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import alllocales from "@fullcalendar/core/locales-all";
 import ModalEvent from "../components/AddEvent";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import axios from "axios";
 
 const Event = () => {
   const [showModal, setShowModal] = useState(false);
   const [events, setEvents] = useState([]);
   const [minDate, setMinDate] = useState(new Date().toISOString());
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/allEvents");
+        setEvents(response.data);
+      } catch (error) {
+        console.log("Erreur lors du chargement des événements:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleDateClick = (info) => {
     setShowModal(true);
@@ -19,14 +33,22 @@ const Event = () => {
   };
 
   const handleAddEvent = (title, start, end) => {
+    const startDateWithoutTime = new Date(start);
+    startDateWithoutTime.setHours(0, 0, 0, 0);
+
+    const endDateWithoutTime = new Date(end);
+    endDateWithoutTime.setHours(0, 0, 0, 0);
+
     const newEvent = {
       title: title,
-      start: start,
-      end: end,
+      start: startDateWithoutTime.toISOString(),
+      end: endDateWithoutTime.toISOString(),
     };
+
     setEvents([...events, newEvent]);
     console.log("Nouvel événement ajouté :", newEvent);
   };
+
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />

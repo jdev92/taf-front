@@ -24,7 +24,6 @@ const UserDetails = () => {
         );
         setUserEvents(response.data);
         setIsLoading(false);
-        // console.log(response.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -41,7 +40,6 @@ const UserDetails = () => {
         );
         setUserDetails(response.data);
         setIsLoading(false);
-        // console.log(response.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -69,7 +67,6 @@ const UserDetails = () => {
   const handleDelete = async (eventId) => {
     try {
       await axios.delete(`http://localhost:3000/deleteEvent/${eventId}`);
-      // Mettre à jour l'état local userEvents après la suppression
       setUserEvents((prevUserEvents) =>
         prevUserEvents.filter((event) => event._id !== eventId)
       );
@@ -119,11 +116,11 @@ const UserDetails = () => {
               )}
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                  <h1 className=" text-4xl pt-4 pb-4 text-white">
+                  <h1 className="text-4xl pt-4 pb-4 text-white">
                     Planning de {lastName} {firstName}
                   </h1>
 
-                  <div className="overflow-hidden  dark:border-gray-700 md:rounded-lg">
+                  <div className="overflow-hidden dark:border-gray-700 md:rounded-lg">
                     {userEvents.length === 0 ? (
                       <p className="text-white">Aucun évènement trouvé</p>
                     ) : (
@@ -168,8 +165,7 @@ const UserDetails = () => {
                                     />
                                     <div>
                                       <h2 className="text-sm font-medium text-white">
-                                        {firstName}
-                                        {lastName}
+                                        {firstName} {lastName}
                                       </h2>
                                       <p className="text-xs font-normal text-white">
                                         {email}
