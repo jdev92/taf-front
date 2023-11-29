@@ -33,9 +33,7 @@ const CreateUser = () => {
     if (email.trim() === "") {
       newErrors.email = "Veuillez renseigner votre email";
       isValid = false;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Email non valide";
       isValid = false;
     }
