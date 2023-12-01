@@ -79,6 +79,12 @@ const AllEvents = () => {
                             >
                               Date de fin
                             </th>
+                            <th
+                              scope="col"
+                              className="px-4 py-3.5 font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                            >
+                              Jours de présence
+                            </th>
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -110,6 +116,9 @@ const AllEvents = () => {
                               </td>
                               <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
                                 {event.end}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                                {event.presentDays.join(", ")}
                               </td>
                             </tr>
                           ))}
