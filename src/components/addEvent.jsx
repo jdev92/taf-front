@@ -40,26 +40,47 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     if ((option1 || option2) && start && end && userId) {
       const selectedOption = option1 ? "Cours" : "Entreprise";
       try {
-        const joursSelectionnes = selectedDays.map((day) => daysOfWeek[day]);
+        const joursSelectionnes =
+          selectedDays.length > 0
+            ? selectedDays.map((day) => daysOfWeek[day])
+            : daysOfWeek;
 
         const periodeSelectionnee = [];
 
+        // Convertit la date de début et de fin en objets de date
         const dateStart = new Date(start);
         const dateEnd = new Date(end);
 
-        while (dateStart <= dateEnd) {
+        // Trouver le premier jour sélectionné dans la plage de dates
+        while (
+          !joursSelectionnes.includes(daysOfWeek[dateStart.getDay() - 1]) &&
+          dateStart <= dateEnd
+        ) {
+          dateStart.setDate(dateStart.getDate() + 1);
+        }
+
+        // Trouver le dernier jour sélectionné dans la plage de dates
+        while (
+          !joursSelectionnes.includes(daysOfWeek[dateEnd.getDay() - 1]) &&
+          dateEnd >= dateStart
+        ) {
+          dateEnd.setDate(dateEnd.getDate() - 1);
+        }
+
+        // Initialise la date courante à la date de début
+        let currentDate = new Date(dateStart);
+
+        // Liste des dates pour la période sélectionnée
+        while (currentDate <= dateEnd) {
           if (
-            (joursSelectionnes.length === 0 && dateStart.getDay() < 5) ||
-            joursSelectionnes.includes(
-              daysOfWeek[dateStart.getDay() - 1] // Modifier pour prendre en compte les jours de la semaine corrects
-            )
+            joursSelectionnes.includes(daysOfWeek[currentDate.getDay() - 1])
           ) {
             periodeSelectionnee.push({
-              date: new Date(dateStart.getTime()),
-              dayOfWeek: daysOfWeek[dateStart.getDay() - 1],
+              date: new Date(currentDate.getTime()),
+              dayOfWeek: daysOfWeek[currentDate.getDay() - 1],
             });
           }
-          dateStart.setDate(dateStart.getDate() + 1);
+          currentDate.setDate(currentDate.getDate() + 1);
         }
 
         await axios.post("http://localhost:3000/create-event", {
