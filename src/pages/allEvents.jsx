@@ -98,26 +98,26 @@ const AllEvents = () => {
                                     alt="img-user"
                                   />
                                   <div>
-                                    <h2 className="text-sm font-medium text-gray-800 dark:text-white text-white">
+                                    <h2 className="text-sm font-medium dark:text-white text-white">
                                       {event.user.lastName}
                                       {event.user.firstName}
                                     </h2>
-                                    <p className="text-xs font-normal text-gray-600 dark:text-gray-400 text-white">
+                                    <p className="text-xs font-normal dark:text-gray-400 text-white">
                                       {event.user.email}
                                     </p>
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                              <td className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
                                 {event.title}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                              <td className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
                                 {event.start}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                              <td className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
                                 {event.end}
                               </td>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                              <td className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
                                 {event.presentDays.join(", ")}
                               </td>
                             </tr>

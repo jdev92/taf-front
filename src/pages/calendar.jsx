@@ -1,13 +1,11 @@
-import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import alllocales from "@fullcalendar/core/locales-all";
-import ModalEvent from "../components/AddEvent";
+import ModalEvent from "../components/addEvent";
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
-
 const Event = () => {
   const [showModal, setShowModal] = useState(false);
   const [events, setEvents] = useState([]);
