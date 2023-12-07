@@ -88,40 +88,44 @@ const AllEvents = () => {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                          {currentEvents.map((event) => (
-                            <tr key={event._id}>
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900">
-                                <div className="flex items-center gap-x-2">
-                                  <img
-                                    className="object-cover w-8 h-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                                    alt="img-user"
-                                  />
-                                  <div>
-                                    <h2 className="text-sm font-medium dark:text-white text-white">
-                                      {event.user.lastName}
-                                      {event.user.firstName}
-                                    </h2>
-                                    <p className="text-xs font-normal dark:text-gray-400 text-white">
-                                      {event.user.email}
-                                    </p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
-                                {event.title}
-                              </td>
-                              <td className="px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
-                                {event.start}
-                              </td>
-                              <td className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
-                                {event.end}
-                              </td>
-                              <td className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
-                                {event.presentDays.join(", ")}
-                              </td>
-                            </tr>
-                          ))}
+                          {currentEvents.map(
+                            (event) =>
+                              // Vérifier si l'événement a des jours de présence avant de l'afficher
+                              event.presentDays.length > 0 && (
+                                <tr key={event._id}>
+                                  <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap bg-gray-900">
+                                    <div className="flex items-center gap-x-2">
+                                      <img
+                                        className="object-cover w-8 h-8 rounded-full"
+                                        src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                                        alt="img-user"
+                                      />
+                                      <div>
+                                        <h2 className="text-sm font-medium dark:text-white text-white">
+                                          {event.user.lastName}
+                                          {event.user.firstName}
+                                        </h2>
+                                        <p className="text-xs font-normal dark:text-gray-400 text-white">
+                                          {event.user.email}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className=" px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 text-white">
+                                    {event.title}
+                                  </td>
+                                  <td className="text-green-500 px-4 py-4 text-sm dark:text-gray-300 whitespace-nowrap bg-gray-900 ">
+                                    {event.start}
+                                  </td>
+                                  <td className="text-red-500 px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 ">
+                                    {event.end}
+                                  </td>
+                                  <td className="px-4 py-4 text-sm  dark:text-gray-300 whitespace-nowrap bg-gray-900 text-blue-500">
+                                    {event.presentDays.join(", ")}
+                                  </td>
+                                </tr>
+                              )
+                          )}
                         </tbody>
                       </table>
                     </div>

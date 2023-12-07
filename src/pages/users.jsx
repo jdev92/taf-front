@@ -69,11 +69,22 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/deleteUser/${id}`);
+      const response = await axios.get(
+        `http://localhost:3000/userEvents/${id}`
+      );
+      const userEvents = response.data;
+
+      // Supprimer chaque événement de l'utilisateur
+      for (const event of userEvents) {
+        await axios.delete(`http://localhost:3000/deleteEvent/${event._id}`);
+      }
+      // Supprimer l'utilisateur
+      await axios.delete(`http://localhost:3000/users/${id}`);
+
       setData(data.filter((user) => user._id !== id));
       handleCloseDialog();
       handleAlert();
-      console.log("Utilisateur supprimé");
+      console.log("Utilisateur et ses événements supprimés avec succès.");
       fetchData();
     } catch (error) {
       console.log(error.message);

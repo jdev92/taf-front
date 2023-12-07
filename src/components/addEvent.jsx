@@ -45,51 +45,12 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
             ? selectedDays.map((day) => daysOfWeek[day])
             : daysOfWeek;
 
-        const periodeSelectionnee = [];
-
-        // Convertit la date de début et de fin en objets de date
-        const dateStart = new Date(start);
-        const dateEnd = new Date(end);
-
-        // Trouver le premier jour sélectionné dans la plage de dates
-        while (
-          !joursSelectionnes.includes(daysOfWeek[dateStart.getDay() - 1]) &&
-          dateStart <= dateEnd
-        ) {
-          dateStart.setDate(dateStart.getDate() + 1);
-        }
-
-        // Trouver le dernier jour sélectionné dans la plage de dates
-        while (
-          !joursSelectionnes.includes(daysOfWeek[dateEnd.getDay() - 1]) &&
-          dateEnd >= dateStart
-        ) {
-          dateEnd.setDate(dateEnd.getDate() - 1);
-        }
-
-        // Initialise la date courante à la date de début
-        let currentDate = new Date(dateStart);
-
-        // Liste des dates pour la période sélectionnée
-        while (currentDate <= dateEnd) {
-          if (
-            joursSelectionnes.includes(daysOfWeek[currentDate.getDay() - 1])
-          ) {
-            periodeSelectionnee.push({
-              date: new Date(currentDate.getTime()),
-              dayOfWeek: daysOfWeek[currentDate.getDay() - 1],
-            });
-          }
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
-
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
           start: start,
           end: end,
           userId,
           daysOfWeek: joursSelectionnes,
-          periode: periodeSelectionnee,
         });
 
         onAddEvent(selectedOption, start, end);
@@ -155,17 +116,22 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                   <label className="text-white">Title</label>
                   <div className="flex items-center text-gray-400 py-2 gap-2">
                     <label
+                      htmlFor="cours"
                       className={`text-white ${option1 ? "text-red-500" : ""}`}
                     >
                       Cours
                     </label>
                     <input
+                      id="cours"
                       type="checkbox"
                       checked={option1}
                       onChange={handleOption1}
                     />
-                    <label className="text-white ml-2">Entreprise</label>
+                    <label htmlFor="entreprise" className="text-white ml-2">
+                      Entreprise
+                    </label>
                     <input
+                      id="entreprise"
                       type="checkbox"
                       checked={option2}
                       onChange={handleOption2}
@@ -179,11 +145,17 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                         <div key={index} className="flex items-center">
                           <input
                             type="checkbox"
+                            id={`day-${index}`}
                             checked={selectedDays.includes(index)}
                             onChange={() => handleDaySelect(index)}
                             className="ml-1"
                           />
-                          <label className="text-white ml-2">{day}</label>
+                          <label
+                            htmlFor={`day-${index}`}
+                            className="text-white ml-2"
+                          >
+                            {day}
+                          </label>
                         </div>
                       ))}
                     </div>
