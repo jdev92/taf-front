@@ -2,8 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function Modal({ onAddEvent, showModal, setShowModal }) {
-  const [option1, setOption1] = useState(false); // (Cours)
-  const [option2, setOption2] = useState(false); // (Entreprise)
+  const [isCoursSelected, setIsCoursSelected] = useState(false);
+  const [isEntrepriseSelected, setIsEntrepriseSelected] = useState(false);
   const [title, setTitle] = useState("");
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -25,26 +25,27 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     fetchUsers();
   }, []);
 
-  const handleOption1 = () => {
-    setOption1(true);
-    setOption2(false);
-  };
-
-  const handleOption2 = () => {
-    setOption1(false);
-    setOption2(true);
+  const handleOptionChange = (option) => {
+    if (option === "Cours") {
+      setIsCoursSelected(!isCoursSelected);
+      setIsEntrepriseSelected(false);
+    } else if (option === "Entreprise") {
+      setIsEntrepriseSelected(!isEntrepriseSelected);
+      setIsCoursSelected(false);
+    }
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if ((option1 || option2) && start && end && userId) {
-      const selectedOption = option1 ? "Cours" : "Entreprise";
-      try {
-        const joursSelectionnes =
-          selectedDays.length > 0
-            ? selectedDays.map((day) => daysOfWeek[day])
-            : daysOfWeek;
+    const selectedOption = isCoursSelected ? "Cours" : "Entreprise";
 
+    if (selectedOption && start && end && userId) {
+      const joursSelectionnes =
+        selectedDays.length > 0
+          ? selectedDays.map((day) => daysOfWeek[day])
+          : daysOfWeek;
+
+      try {
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
           start: start,
@@ -55,8 +56,8 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
 
         onAddEvent(selectedOption, start, end);
         setShowModal(false);
-        setOption1(false);
-        setOption2(false);
+        setIsCoursSelected(false);
+        setIsEntrepriseSelected(false);
         setTitle("");
         setStart("");
         setEnd("");
@@ -115,26 +116,17 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
 
                   <label className="text-white">Title</label>
                   <div className="flex items-center text-gray-400 py-2 gap-2">
-                    <label
-                      htmlFor="cours"
-                      className={`text-white ${option1 ? "text-red-500" : ""}`}
-                    >
-                      Cours
-                    </label>
+                    <label>Cours</label>
                     <input
-                      id="cours"
                       type="checkbox"
-                      checked={option1}
-                      onChange={handleOption1}
+                      checked={isCoursSelected}
+                      onChange={() => handleOptionChange("Cours")}
                     />
-                    <label htmlFor="entreprise" className="text-white ml-2">
-                      Entreprise
-                    </label>
+                    <label className="text-white ml-2">Entreprise</label>
                     <input
-                      id="entreprise"
                       type="checkbox"
-                      checked={option2}
-                      onChange={handleOption2}
+                      checked={isEntrepriseSelected}
+                      onChange={() => handleOptionChange("Entreprise")}
                       className="ml-1"
                     />
                   </div>
@@ -145,17 +137,11 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                         <div key={index} className="flex items-center">
                           <input
                             type="checkbox"
-                            id={`day-${index}`}
                             checked={selectedDays.includes(index)}
                             onChange={() => handleDaySelect(index)}
                             className="ml-1"
                           />
-                          <label
-                            htmlFor={`day-${index}`}
-                            className="text-white ml-2"
-                          >
-                            {day}
-                          </label>
+                          <label className="text-white ml-2">{day}</label>
                         </div>
                       ))}
                     </div>

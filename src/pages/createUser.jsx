@@ -54,7 +54,7 @@ const CreateUser = () => {
           email,
         });
         setErrors({});
-        console.log(response.data);
+        console.log("Utilisateur enregistré avec succès!");
         handleShowToast();
         setTimeout(() => {
           navigate("/users");
