@@ -149,7 +149,7 @@ const Users = () => {
     setFilteredData(filtered);
   }, [searchTerm, data]);
 
-  const usersPerPage = 5;
+  const usersPerPage = 8;
   const totalPages = Math.ceil(filteredData.length / usersPerPage);
 
   // Calcul de l'index de début et de fin pour extraire les utilisateurs de la page actuelle
