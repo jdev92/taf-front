@@ -33,8 +33,7 @@ const Home = () => {
         if (response.data.enterpriseUsers) {
           setEnterpriseUsers(response.data.enterpriseUsers);
         }
-
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des utilisateurs en entreprise:",
@@ -56,8 +55,7 @@ const Home = () => {
         if (response.data.coursUsers) {
           setCoursUsers(response.data.coursUsers);
         }
-
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des utilisateurs en cours:",
