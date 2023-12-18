@@ -29,12 +29,14 @@ const Event = () => {
   }, []);
 
   const transformedEvents = events.flatMap((userEvent) =>
-    userEvent.dates.map((eventDate) => ({
-      title: `${userEvent.name}: ${eventDate.title}`,
-      start: eventDate.date,
-      backgroundColor: eventDate.title === "Entreprise" ? "green" : "red",
-      allDay: true,
-    }))
+    userEvent.dates
+      ? userEvent.dates.map((eventDate) => ({
+          title: `${userEvent.name}: ${eventDate.title}`,
+          start: eventDate.date,
+          backgroundColor: eventDate.title === "Entreprise" ? "green" : "red",
+          allDay: true,
+        }))
+      : []
   );
 
   const handleDateClick = (info) => {
