@@ -116,18 +116,25 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
 
                   <label className="text-white">Title</label>
                   <div className="flex items-center text-gray-400 py-2 gap-2">
-                    <label>Cours</label>
+                    <label htmlFor="cours" className="text-white">
+                      Cours
+                    </label>
                     <input
                       type="checkbox"
                       checked={isCoursSelected}
                       onChange={() => handleOptionChange("Cours")}
+                      className="ml-1"
+                      id="cours"
                     />
-                    <label className="text-white ml-2">Entreprise</label>
+                    <label htmlFor="entreprise" className="text-white ml-2">
+                      Entreprise
+                    </label>
                     <input
                       type="checkbox"
                       checked={isEntrepriseSelected}
                       onChange={() => handleOptionChange("Entreprise")}
                       className="ml-1"
+                      id="entreprise"
                     />
                   </div>
                   <div className="flex flex-col text-gray-400 py-2">
@@ -140,8 +147,14 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
                             checked={selectedDays.includes(index)}
                             onChange={() => handleDaySelect(index)}
                             className="ml-1"
+                            id={`day-${index}`}
                           />
-                          <label className="text-white ml-2">{day}</label>
+                          <label
+                            htmlFor={`day-${index}`}
+                            className="text-white ml-2"
+                          >
+                            {day}
+                          </label>
                         </div>
                       ))}
                     </div>
