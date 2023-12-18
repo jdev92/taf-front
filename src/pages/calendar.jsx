@@ -1,6 +1,5 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import alllocales from "@fullcalendar/core/locales-all";
 import ModalEvent from "../components/addEvent";
@@ -29,19 +28,14 @@ const Event = () => {
     fetchEvents();
   }, []);
 
-  const transformedEvents = events
-    ? events.flatMap((userEvent) =>
-        userEvent.dates
-          ? userEvent.dates.map((eventDate) => ({
-              title: `${userEvent.name}: ${eventDate.title}`,
-              start: eventDate.date,
-              backgroundColor:
-                eventDate.title === "Entreprise" ? "green" : "red",
-              allDay: true,
-            }))
-          : []
-      )
-    : [];
+  const transformedEvents = events.flatMap((userEvent) =>
+    userEvent.dates.map((eventDate) => ({
+      title: `${userEvent.name}: ${eventDate.title}`,
+      start: eventDate.date,
+      backgroundColor: eventDate.title === "Entreprise" ? "green" : "red",
+      allDay: true,
+    }))
+  );
 
   const handleDateClick = (info) => {
     setShowModal(true);
@@ -65,36 +59,39 @@ const Event = () => {
     };
 
     setEvents([...events, newEvent]);
-    console.log("Nouvel événement ajouté :", newEvent);
+    console.log("Nouvel événement ajouté ");
+  };
+
+  const handleAddEventButton = () => {
+    setShowModal(true);
   };
 
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 mt-16 overflow-y-auto pt-2 pl-2 pr-2">
+      <div className="flex-1 m overflow-y-auto pt-2 pl-2 pr-2 pl-4">
         {showModal && (
           <ModalEvent onAddEvent={handleAddEvent} setShowModal={setShowModal} />
         )}
-        <style>
-          {`
-            .fc-time-grid {
-              display: none; // Masquer la grille de temps
-            }
-          `}
-        </style>
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            start: "today prev,next",
+            start: "today prev,next addEvent",
             center: "title",
-            end: "dayGridMonth,timeGridWeek,timeGridDay",
+            end: "dayGridMonth,dayGridWeek",
+          }}
+          customButtons={{
+            addEvent: {
+              text: "Ajouter un planning",
+              click: handleAddEventButton,
+            },
           }}
           buttonText={{
             today: "aujourd'hui",
             month: "mois",
             week: "semaine",
-            day: "jour",
+
             list: "list",
           }}
           titleFormat={{ day: "numeric", month: "long", year: "numeric" }}
@@ -102,9 +99,7 @@ const Event = () => {
           locales={alllocales}
           locale={"fr"}
           firstDay={1}
-          selectable={true}
           events={transformedEvents}
-          dateClick={handleDateClick}
           validRange={{
             start: minDate,
           }}
