@@ -92,10 +92,10 @@ const AllEvents = () => {
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                             {currentEvents.map(
-                              (event) =>
+                              (event, index) =>
                                 // Vérifier si l'événement a des jours de présence avant de l'afficher
                                 event.presentDays.length > 0 && (
-                                  <tr key={event._id}>
+                                  <tr key={event._id || index}>
                                     <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap bg-gray-900">
                                       <div className="flex items-center gap-x-2">
                                         <img
