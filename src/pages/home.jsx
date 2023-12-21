@@ -83,37 +83,50 @@ const Home = () => {
             <h2 className="text-white text-2xl pb-4">{formattedTime}</h2>
             <h2 className="text-white text-2xl pb-4">{formattedDate}</h2>
 
-            <h3 className="text-white mb-5 mt-10">
-              Utilisateurs en entreprise :
-            </h3>
-            {enterpriseUsers === 0 ? (
-              <p className="text-white">Aucun utilisateur présent</p>
-            ) : (
-              <div className="flex flex-col">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  {enterpriseUsers.map((user) => (
-                    <p key={user._id} className="ml-10 text-white">
-                      - {user.lastName} {user.firstName}
-                    </p>
-                  ))}
-                </div>
+            <div className="flex">
+              {/* Tableau des utilisateurs en entreprise */}
+              <div className="w-1/2 pr-4">
+                <h3 className="text-white mb-2 mt-10">
+                  Utilisateurs en entreprise
+                </h3>
+                {enterpriseUsers.length === 0 ? (
+                  <p className="text-white">Aucun utilisateur présent</p>
+                ) : (
+                  <table className="text-white">
+                    <tbody>
+                      {enterpriseUsers.map((user) => (
+                        <tr key={user._id}>
+                          <td>
+                            {user.lastName} {user.firstName}
+                          </td>
+                          <td></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
-            )}
 
-            <h3 className="text-white mt-10">Utilisateurs en Cours :</h3>
-            {coursUsers === 0 ? (
-              <p className="text-white">Aucun utilisateur présent</p>
-            ) : (
-              <div className="flex flex-col">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  {coursUsers.map((user) => (
-                    <p key={user._id} className="ml-10 text-white">
-                      - {user.lastName} {user.firstName}
-                    </p>
-                  ))}
-                </div>
+              {/* Tableau des utilisateurs en cours */}
+              <div className="w-1/2 pl-4">
+                <h3 className="text-white mb-2 mt-10">Utilisateurs en cours</h3>
+                {coursUsers.length === 0 ? (
+                  <p className="text-white">Aucun utilisateur présent</p>
+                ) : (
+                  <table className="text-white">
+                    <tbody>
+                      {coursUsers.map((user) => (
+                        <tr key={user._id}>
+                          <td>
+                            {user.lastName} {user.firstName}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
