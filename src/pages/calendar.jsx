@@ -10,8 +10,9 @@ import axios from "axios";
 const Event = () => {
   const [showModal, setShowModal] = useState(false);
   const [events, setEvents] = useState([]);
-  const [selectedDates, setSelectedDates] = useState([]);
   const [minDate, setMinDate] = useState(new Date().toISOString());
+  const [newEvent, setNewEvent] = useState(null);
+  const [refreshCalendar, setRefreshCalendar] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -26,7 +27,7 @@ const Event = () => {
     };
 
     fetchEvents();
-  }, []);
+  }, [refreshCalendar]);
 
   const transformedEvents = events.flatMap((userEvent) =>
     userEvent.dates
@@ -60,7 +61,10 @@ const Event = () => {
       end: endDateWithoutTime.toISOString(),
     };
 
+    setNewEvent(newEvent);
     setEvents([...events, newEvent]);
+    setRefreshCalendar(true);
+
     console.log("Nouvel événement ajouté ");
   };
 
@@ -73,7 +77,11 @@ const Event = () => {
       <Sidebar />
       <div className="flex-1 m overflow-y-auto pt-2 pl-2 pr-2 pl-4">
         {showModal && (
-          <ModalEvent onAddEvent={handleAddEvent} setShowModal={setShowModal} />
+          <ModalEvent
+            onAddEvent={handleAddEvent}
+            setShowModal={setShowModal}
+            setRefreshCalendar={setRefreshCalendar}
+          />
         )}
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
@@ -107,6 +115,7 @@ const Event = () => {
           }}
           dayMaxEvents={true}
           displayEventTime={false}
+          key={refreshCalendar.toString()}
         />
       </div>
     </div>
