@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export default function Modal({ onAddEvent, showModal, setShowModal }) {
+export default function Modal({
+  onAddEvent,
+  setShowModal,
+  setRefreshCalendar,
+}) {
   const [isCoursSelected, setIsCoursSelected] = useState(false);
   const [isEntrepriseSelected, setIsEntrepriseSelected] = useState(false);
   const [title, setTitle] = useState("");
@@ -12,6 +16,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
   const [selectedDays, setSelectedDays] = useState([]);
   const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
+  // Charger les utilisateurs au chargement du composant
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -25,6 +30,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     fetchUsers();
   }, []);
 
+  // Gérer le changement de l'option (Cours/Entreprise)
   const handleOptionChange = (option) => {
     if (option === "Cours") {
       setIsCoursSelected(!isCoursSelected);
@@ -35,6 +41,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
     }
   };
 
+  // Gérer la sauvegarde de l'événement
   const handleSave = async (e) => {
     e.preventDefault();
     const selectedOption = isCoursSelected ? "Cours" : "Entreprise";
@@ -46,6 +53,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
           : daysOfWeek;
 
       try {
+        // Envoyer la requête POST pour créer un événement
         await axios.post("http://localhost:3000/create-event", {
           title: selectedOption,
           start: start,
@@ -54,6 +62,7 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
           daysOfWeek: joursSelectionnes,
         });
 
+        // Mettre à jour l'état local et fermer le modal
         onAddEvent(selectedOption, start, end);
         setShowModal(false);
         setIsCoursSelected(false);
@@ -61,12 +70,14 @@ export default function Modal({ onAddEvent, showModal, setShowModal }) {
         setTitle("");
         setStart("");
         setEnd("");
+        setRefreshCalendar(true);
       } catch (error) {
         console.log("Erreur lors de l'enregistrement de l'événement:", error);
       }
     }
   };
 
+  // Gérer la sélection des jours de la semaine
   const handleDaySelect = (day) => {
     const isSelected = selectedDays.includes(day);
     if (isSelected) {
