@@ -79,15 +79,15 @@ const Home = () => {
         <Sidebar />
         <div className="bg-gray-900 p-7 text-2xl font-semibold flex-1 h-screen">
           <div>
-            <h1 className="text-white text-4xl pb-4">Bienvenue</h1>
-            <h2 className="text-white text-2xl pb-4">{formattedTime}</h2>
-            <h2 className="text-white text-2xl pb-4">{formattedDate}</h2>
+            <h1 className="text-white text-4xl pb-2">Bienvenue</h1>
+            <h2 className="text-white text-2xl pb-2">{formattedDate}</h2>
+            <h2 className="text-white text-2xl pb-2">{formattedTime}</h2>
 
             <div className="flex">
               {/* Tableau des utilisateurs en entreprise */}
               <div className="w-1/2 pr-4">
                 <h3 className="text-white mb-2 mt-10">
-                  Utilisateurs en entreprise
+                  Utilisateurs en entreprise :
                 </h3>
                 {enterpriseUsers.length === 0 ? (
                   <p className="text-white">Aucun utilisateur présent</p>
@@ -97,7 +97,7 @@ const Home = () => {
                       {enterpriseUsers.map((user) => (
                         <tr key={user._id}>
                           <td>
-                            {user.lastName} {user.firstName}
+                            - {user.lastName} {user.firstName}
                           </td>
                           <td></td>
                         </tr>
@@ -109,7 +109,9 @@ const Home = () => {
 
               {/* Tableau des utilisateurs en cours */}
               <div className="w-1/2 pl-4">
-                <h3 className="text-white mb-2 mt-10">Utilisateurs en cours</h3>
+                <h3 className="text-white mb-2 mt-10">
+                  Utilisateurs en cours :
+                </h3>
                 {coursUsers.length === 0 ? (
                   <p className="text-white">Aucun utilisateur présent</p>
                 ) : (
@@ -118,7 +120,7 @@ const Home = () => {
                       {coursUsers.map((user) => (
                         <tr key={user._id}>
                           <td>
-                            {user.lastName} {user.firstName}
+                            - {user.lastName} {user.firstName}
                           </td>
                         </tr>
                       ))}
