@@ -6,6 +6,7 @@ import ModalEvent from "../components/addEvent";
 import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
+import "../App.css";
 
 const Event = () => {
   const [showModal, setShowModal] = useState(false);
@@ -13,6 +14,7 @@ const Event = () => {
   const [minDate, setMinDate] = useState(new Date().toISOString());
   const [newEvent, setNewEvent] = useState(null);
   const [refreshCalendar, setRefreshCalendar] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -32,9 +34,9 @@ const Event = () => {
   const transformedEvents = events.flatMap((userEvent) =>
     userEvent.dates
       ? userEvent.dates.map((eventDate) => ({
-          title: `${userEvent.name}: ${eventDate.title}`,
+          title: `${userEvent.name}`,
           start: eventDate.date,
-          backgroundColor: eventDate.title === "Entreprise" ? "green" : "red",
+          backgroundColor: eventDate.title === "Entreprise" ? "green" : "blue",
           allDay: true,
         }))
       : []
@@ -87,7 +89,7 @@ const Event = () => {
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            start: "today prev,next addEvent",
+            start: "today prev,next addEvent entrepriseButton coursButton",
             center: "title",
             end: "dayGridMonth,dayGridWeek",
           }}
@@ -95,6 +97,12 @@ const Event = () => {
             addEvent: {
               text: "Ajouter un planning",
               click: handleAddEventButton,
+            },
+            entrepriseButton: {
+              text: "Entreprise",
+            },
+            coursButton: {
+              text: "Cours",
             },
           }}
           buttonText={{
