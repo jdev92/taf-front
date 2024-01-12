@@ -15,7 +15,9 @@ const Event = () => {
   const [newEvent, setNewEvent] = useState(null);
   const [refreshCalendar, setRefreshCalendar] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
+  const [filteredCategory, setFilteredCategory] = useState(null);
 
+  // Récupérer les Events
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -31,6 +33,7 @@ const Event = () => {
     fetchEvents();
   }, [refreshCalendar]);
 
+  // Transformer les Events pour le calendrier
   const transformedEvents = events.flatMap((userEvent) =>
     userEvent.dates
       ? userEvent.dates.map((eventDate) => ({
@@ -42,6 +45,17 @@ const Event = () => {
       : []
   );
 
+  // filtrer les Events selon la catégorie sélectionnée
+  const filteredEvents =
+    filteredCategory === null
+      ? transformedEvents
+      : transformedEvents.filter(
+          (event) =>
+            event.backgroundColor ===
+            (filteredCategory === "Entreprise" ? "green" : "blue")
+        );
+
+  // Gestion du clic sur la date du calendrier
   const handleDateClick = (info) => {
     setShowModal(true);
     const selectedDate = info.dateStr;
@@ -50,6 +64,7 @@ const Event = () => {
     setSelectedDates([...selectedDates, selectedDate]);
   };
 
+  // Ajout d'un Event
   const handleAddEvent = (title, start, end) => {
     const startDateWithoutTime = new Date(start);
     startDateWithoutTime.setHours(0, 0, 0, 0);
@@ -70,8 +85,14 @@ const Event = () => {
     console.log("Nouvel événement ajouté ");
   };
 
+  // Gestion du clic sur le bouton d'ajout d'Event
   const handleAddEventButton = () => {
     setShowModal(true);
+  };
+
+  // Gestion du clic sur les boutons de catégorie (Entreprise, Cours)
+  const handleCategoryButtonClick = (category) => {
+    setFilteredCategory(category);
   };
 
   return (
@@ -100,16 +121,17 @@ const Event = () => {
             },
             entrepriseButton: {
               text: "Entreprise",
+              click: () => handleCategoryButtonClick("Entreprise"),
             },
             coursButton: {
               text: "Cours",
+              click: () => handleCategoryButtonClick("Cours"),
             },
           }}
           buttonText={{
             today: "aujourd'hui",
             month: "mois",
             week: "semaine",
-
             list: "list",
           }}
           titleFormat={{ day: "numeric", month: "long", year: "numeric" }}
@@ -117,7 +139,7 @@ const Event = () => {
           locales={alllocales}
           locale={"fr"}
           firstDay={1}
-          events={transformedEvents}
+          events={filteredEvents}
           validRange={{
             start: minDate,
           }}
