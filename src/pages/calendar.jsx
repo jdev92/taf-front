@@ -110,7 +110,8 @@ const Event = () => {
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            start: "today prev,next addEvent entrepriseButton coursButton",
+            start:
+              "today prev,next addEvent entrepriseButton coursButton resetButton",
             center: "title",
             end: "dayGridMonth,dayGridWeek",
           }}
@@ -126,6 +127,10 @@ const Event = () => {
             coursButton: {
               text: "Cours",
               click: () => handleCategoryButtonClick("Cours"),
+            },
+            resetButton: {
+              text: "Vue globale",
+              click: () => handleCategoryButtonClick(null),
             },
           }}
           buttonText={{
