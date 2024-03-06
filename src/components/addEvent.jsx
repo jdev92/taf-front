@@ -42,9 +42,9 @@ export default function Modal({
     }
   };
 
-  // Gérer le chamgement de fichier
+  // Gérer le changement de fichier
   const handleFileChange = (event) => {
-    const selectedFIle = event.target.files[0];
+    const selectedFile = event.target.files[0];
   };
 
   // Gérer la sauvegarde de l'événement
@@ -59,26 +59,16 @@ export default function Modal({
           : daysOfWeek;
 
       try {
-        // Envoyer la requête POST pour créer un événement
-        // await axios.post("http://localhost:3000/create-event", {
-        //   title: selectedOption,
-        //   start: start,
-        //   end: end,
-        //   userId,
-        //   daysOfWeek: joursSelectionnes,
-        // });
-
-        const formData = new formData();
+        const formData = new FormData();
         formData.append("file", file);
         formData.append("title", selectedOption);
         formData.append("start", start);
-        formData.append("end");
+        formData.append("end", end);
         formData.append("userId", userId);
         formData.append("daysOfWeek", JSON.stringify(joursSelectionnes));
 
         await axios.post("http://localhost:3000/create-event", formData);
 
-        // Mettre à jour l'état local et fermer le modal
         onAddEvent(selectedOption, start, end);
         setShowModal(false);
         setIsCoursSelected(false);
