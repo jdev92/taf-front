@@ -81,7 +81,7 @@ const CreateUser = () => {
                 >
                   <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                 </svg>
-                <p>Utilisateur enregistrer avec suuccès !</p>
+                <p>Utilisateur enregistré avec succès !</p>
               </div>
               <button className="text-green-100 hover:text-white">
                 <svg
@@ -111,6 +111,7 @@ const CreateUser = () => {
             <div className="flex flex-col text-gray-400 py-2">
               <label htmlFor="lastName">Nom</label>
               <input
+                id="lastName"
                 className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
                 type="text"
                 placeholder=""
@@ -126,6 +127,7 @@ const CreateUser = () => {
             <div className="flex flex-col text-gray-400 py-2">
               <label htmlFor="firstName">Prénom</label>
               <input
+                id="firstName"
                 className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
                 type="text"
                 placeholder=""
@@ -139,6 +141,7 @@ const CreateUser = () => {
             <div className="flex flex-col text-gray-400 py-2">
               <label htmlFor="email">Email</label>
               <input
+                id="email"
                 className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
                 type="text"
                 placeholder=""
@@ -151,6 +154,7 @@ const CreateUser = () => {
             </div>
 
             <button
+              id="submitForm"
               className="w-full my-5 py-2 bg-teal-500 text-white rounded-lg"
               type="submit"
             >
