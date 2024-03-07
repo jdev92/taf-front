@@ -77,7 +77,7 @@ const Event = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 m overflow-y-auto pt-2 pl-2 pr-2 pl-4">
+      <div className="flex-1 m overflow-y-auto pt-2 pl-2 pr-2">
         {showModal && (
           <ModalEvent
             onAddEvent={handleAddEvent}
