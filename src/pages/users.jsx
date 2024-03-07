@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { RotatingLines } from "react-loader-spinner";
-import UserModal from "../components/UserModal";
+import UserModal from "../components/userModal";
 
 const Users = () => {
   const [userId, setUserId] = useState(null);
@@ -97,7 +97,6 @@ const Users = () => {
       setData(response.data);
       setTotalUsers(response.data.length);
       setIsLoading(false);
-      // console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }

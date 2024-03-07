@@ -53,6 +53,7 @@ const CreateUser = () => {
           firstName,
           email,
         });
+        console.log(response);
         setErrors({});
         console.log("Utilisateur enregistré avec succès!");
         handleShowToast();
