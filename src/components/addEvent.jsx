@@ -15,6 +15,7 @@ export default function Modal({
   const [users, setUsers] = useState([]);
   const [selectedDays, setSelectedDays] = useState([]);
   const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
+  const [file, setFile] = useState(null);
 
   // Charger les utilisateurs au chargement du composant
   useEffect(() => {
@@ -41,6 +42,11 @@ export default function Modal({
     }
   };
 
+  // Gérer le changement de fichier
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+  };
+
   // Gérer la sauvegarde de l'événement
   const handleSave = async (e) => {
     e.preventDefault();
@@ -53,16 +59,16 @@ export default function Modal({
           : daysOfWeek;
 
       try {
-        // Envoyer la requête POST pour créer un événement
-        await axios.post("http://localhost:3000/create-event", {
-          title: selectedOption,
-          start: start,
-          end: end,
-          userId,
-          daysOfWeek: joursSelectionnes,
-        });
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("title", selectedOption);
+        formData.append("start", start);
+        formData.append("end", end);
+        formData.append("userId", userId);
+        formData.append("daysOfWeek", JSON.stringify(joursSelectionnes));
 
-        // Mettre à jour l'état local et fermer le modal
+        await axios.post("http://localhost:3000/create-event", formData);
+
         onAddEvent(selectedOption, start, end);
         setShowModal(false);
         setIsCoursSelected(false);
@@ -70,6 +76,7 @@ export default function Modal({
         setTitle("");
         setStart("");
         setEnd("");
+        setFile(null);
         setRefreshCalendar(true);
       } catch (error) {
         console.log("Erreur lors de l'enregistrement de l'événement:", error);
@@ -188,6 +195,14 @@ export default function Modal({
                     type="date"
                     value={end}
                     onChange={(e) => setEnd(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col text-gray-400 py-2">
+                  <label className="text-white">Fichier</label>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
                   />
                 </div>
                 <button
